@@ -71,7 +71,7 @@ public class OllamaController {
     //for ollama to keep the chat history and reply according to the previous chat
 
 
-    @GetMapping("/api/{message}")
+    //@GetMapping("/api/{message}")
     public ResponseEntity<String> getAnswer(
             @PathVariable String message,
             @RequestParam String conversationId) {
