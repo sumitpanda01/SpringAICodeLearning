@@ -56,8 +56,26 @@ public class OllamaController {
 //    }
 
     //for chatResponse and metadata
+//    @GetMapping("/api/{message}")
+//    public ResponseEntity<String> getAnswer(@PathVariable String message){
+//
+//        ChatResponse chatResponse = chatClient
+//                .prompt(message)
+//                .call().chatResponse();
+//        System.out.println(chatResponse.getMetadata().getModel());
+//
+//        String response  = chatResponse.getResult().getOutput().getText();
+//        return ResponseEntity.ok(response);
+//    }
+
+    //for ollama to keep the chat history and reply according to the previous chat
+
+
     @GetMapping("/api/{message}")
-    public ResponseEntity<String> getAnswer(@PathVariable String message, @RequestParam String conversationId){
+    public ResponseEntity<String> getAnswer(
+            @PathVariable String message,
+            @RequestParam String conversationId) {
+
         ChatResponse chatResponse = chatClient
                 .prompt()
                 .user(message)
@@ -70,7 +88,23 @@ public class OllamaController {
 
         System.out.println(chatResponse.getMetadata().getModel());
 
-        String response  = chatResponse.getResult().getOutput().getText();
+        String response = chatResponse.getResult()
+                .getOutput()
+                .getText();
+
         return ResponseEntity.ok(response);
     }
+
 }
+
+/**
+ * ChatResponse chatResponse = chatClient
+ *                 .prompt()
+ *                 .user(message)
+ *                 .advisors(advisor -> advisor.param(
+ *                         ChatMemory.CONVERSATION_ID,
+ *                         conversationId
+ *                 ))
+ *                 .call()
+ *                 .chatResponse();
+ */
